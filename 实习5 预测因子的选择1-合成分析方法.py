@@ -44,6 +44,7 @@ sta = pd.read_csv(r"D:\data\short_term_climate_class\sx05\zd.txt",
                   sep="\s+",
                   header=None,
                   names=['station', 'lat', 'lon'])
+#三类雨型年
 type_1_year=np.array([1953,1958,1959,1960,1961,1964,1966,1967,1973,1976,
                       1977,1978,1981,1985,1988,1992,1994,1995,2001,2004])
 type_2_year=np.array([1956,1957,1962,1963,1965,1971,1972,1975,1979,1982,
