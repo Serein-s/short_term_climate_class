@@ -180,7 +180,7 @@ def Lbt_map(ax, extent, sta, pre_per, title=None, number=None, mark=None):
     ax.set_title(number, loc='left', fontsize=15)
     return cb
 
-
+#填色底图
 def contour_map(fig, img_extent, spec_x, spec_y, data_jp, data_lon, data_lat,
                 lev, cmap, p_hgt, title, number):  # 画布，经纬度范围，步长
     c_data_jp, cycle_lon = add_cyclic_point(data_jp, coord=data_lon)
