@@ -163,58 +163,63 @@ for i in range(5):
     darw_pre(sta, prec_pre[i], prec_obs[i], title)
     plt.savefig(r'D:\sx08\%0.f.jpg' % (2011 + i), dpi=300, bbox_inches='tight')
 
-#预测准确率 P 
-cal_p=prec_pre*prec_obs 
-N=160 
-P=pd.DataFrame(np.sum(cal_p>0,axis = 1)/N*100,columns={'P'}) 
-#预测评分 Ps 
-No=np.zeros((5)) 
-n1=No 
-n2=No 
-for i in range(5): 
- for j in range(N): 
- if 
-(cal_p[i,j]>0)or((abs(prec_pre[i,j])<=0.13)&(abs(prec_obs[i,j])<=0.13)&(cal_p[i
-,j]<0)): 
- No[i]+=1 
- elif (abs(prec_pre[i,j])>=0.5)&(abs(prec_obs[i,j])>=0.5): 
- n1[i]+=0 
- elif (abs(prec_pre[i,j])>=0.2)&(abs(prec_obs[i,j])>=0.2): 
- n2[i]+=0 
-f1=5 
-f2=2 
-Ps=pd.DataFrame((No+f1*n1+f2*n2)/(N+f1*n1+f2*n2)*100,columns={'Ps'}) 
-#异常级评分 TS 
-Nf=np.sum(abs(prec_pre)>=0.2,axis = 1) 
-No=np.sum(abs(prec_obs)>=0.2,axis = 1) 
-Nc=np.zeros((5)) 
-9 
-for i in range(5): 
- for j in range(N): 
- if (abs(prec_pre[i,j])>=0.2)&(abs(prec_obs[i,j])>=0.2): 
- Nc[i]+=1 
-TS=pd.DataFrame(Nc/(No+Nf-Nc)*100,columns={'Ts'}) 
-#距平相关系数 ACC 
-Rf=prec_pre-prec_pre.mean(0) 
-ave_Rf=prec_pre.mean(1) 
-Ro=prec_obs-prec_obs.mean(0) 
-ave_Ro=prec_obs.mean(1) 
-Sum_1=np.zeros((5)) 
-Sum_2=np.zeros((5)) 
-for i in range(5): 
- for j in range(160): 
- Sum_1[i]+=(Rf[i,j]-ave_Rf[i])*(Ro[i,j]-ave_Ro[i]) 
-for i in range(5): 
- a1=0 
- b1=0 
- for j in range(160): 
- a1+=((Rf[i,j]-ave_Rf[i])**2) 
- b1+=((Ro[i,j]-ave_Ro[i])**2) 
- Sum_2[i]=np.sqrt(a1*b1) 
- 
-ACC=pd.DataFrame(Sum_1/Sum_2*100,columns={'ACC'}) 
-#转化为表格 
-sheet=pd.concat([P,Ps,TS,ACC],axis=1).T# 
-sheet.columns = ["2011", "2012", "2013","2014", "2015"] 
-sheet.columns.names=['%'] 
-sheet.to_excel(r'D:/data/short_term_climate_class/sx08/sheet.xlsx') 
+#预测准确率P
+cal_p = prec_pre * prec_obs
+N = 160
+P = pd.DataFrame(np.sum(cal_p > 0, axis=1) / N * 100, columns={'P'})
+
+#预测评分Ps
+No = np.zeros((5))
+n1 = No
+n2 = No
+for i in range(5):
+    for j in range(N):
+        if (cal_p[i, j] > 0) or ((abs(prec_pre[i, j]) <= 0.13) &
+                                 (abs(prec_obs[i, j]) <= 0.13) &
+                                 (cal_p[i, j] < 0)):
+            No[i] += 1
+        elif (abs(prec_pre[i, j]) >= 0.5) & (abs(prec_obs[i, j]) >= 0.5):
+            n1[i] += 0
+        elif (abs(prec_pre[i, j]) >= 0.2) & (abs(prec_obs[i, j]) >= 0.2):
+            n2[i] += 0
+f1 = 5
+f2 = 2
+Ps = pd.DataFrame((No + f1 * n1 + f2 * n2) / (N + f1 * n1 + f2 * n2) * 100,
+                  columns={'Ps'})
+
+#异常级评分TS
+Nf = np.sum(abs(prec_pre) >= 0.2, axis=1)
+No = np.sum(abs(prec_obs) >= 0.2, axis=1)
+Nc = np.zeros((5))
+for i in range(5):
+    for j in range(N):
+        if (abs(prec_pre[i, j]) >= 0.2) & (abs(prec_obs[i, j]) >= 0.2):
+            Nc[i] += 1
+TS = pd.DataFrame(Nc / (No + Nf - Nc) * 100, columns={'Ts'})
+
+#距平相关系数ACC
+Rf = prec_pre - prec_pre.mean(0)
+ave_Rf = prec_pre.mean(1)
+Ro = prec_obs - prec_obs.mean(0)
+ave_Ro = prec_obs.mean(1)
+Sum_1 = np.zeros((5))
+Sum_2 = np.zeros((5))
+for i in range(5):
+    for j in range(160):
+        Sum_1[i] += (Rf[i, j] - ave_Rf[i]) * (Ro[i, j] - ave_Ro[i])
+for i in range(5):
+    a1 = 0
+    b1 = 0
+    for j in range(160):
+        a1 += ((Rf[i, j] - ave_Rf[i])**2)
+        b1 += ((Ro[i, j] - ave_Ro[i])**2)
+    Sum_2[i] = np.sqrt(a1 * b1)
+
+ACC = pd.DataFrame(Sum_1 / Sum_2 * 100, columns={'ACC'})
+
+#转化为表格
+sheet = pd.concat([P, Ps, TS, ACC], axis=1).T  #
+sheet.columns = ["2011", "2012", "2013", "2014", "2015"]
+sheet.columns.names = ['%']
+sheet.to_excel(r'D:/data/short_term_climate_class/sx08/sheet.xlsx')
+
